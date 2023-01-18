@@ -11,7 +11,7 @@ jobs:
         run: |
           echo "Step 1 completed"
       - name: Find in commit messages 2
-        uses: atlassian/gajira-find-issue-key@v3
+        uses: atlassian/gajira-find-issue-key@v2
         with:
           from: branch
       - name: Display issues list
