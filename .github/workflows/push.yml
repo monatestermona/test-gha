@@ -11,6 +11,7 @@ jobs:
         run: |
           echo "Step 1 completed"
       - name: Find in commit messages
+        using: 'node16'
         uses: cybervoid/gajira-get-issue@v1.0
         with:
                 input-text: ${{ github.ref }}
