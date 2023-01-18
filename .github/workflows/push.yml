@@ -172,8 +172,8 @@ jobs:
           id: changelog
           uses: onXmaps/jirafy-changelog@v1.2.0
           with:
-            jiraHost: https://monatester.atlassian.net/
-            myToken: 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
+            jiraHost: monatester.atlassian.net
+            myToken: szfPLVS9t24FvVmNIxWm8CF6 #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
 
         - name: Create Release
           id: create_release
@@ -194,4 +194,4 @@ jobs:
             jiraVersion: ${{ github.ref_name }}
             jiraHost: monatester.atlassian.net
             jiraUsername: jiramonatester
-            jiraToken: ${{ secrets.JIRA_TOKEN }}      
+            jiraToken: szfPLVS9t24FvVmNIxWm8CF6 #${{ secrets.JIRA_TOKEN }}      
