@@ -145,7 +145,7 @@ jobs:
           deployment-sequence-number: '${{ github.run_id }}'
           update-sequence-number: '${{ github.run_id }}'
           issue-keys: "${{ steps.jira_keys.outputs.jira-keys }}"
-          display-name: "Deployment number asdf"
+          display-name: "Deployment number: " '${{ github.run_id }}'
           url: "${{github.event.repository.url}}/actions/runs/${{github.run_id}}"
           description: "Prod Deployment"
           last-updated: '${{github.event.head_commit.timestamp}}'
