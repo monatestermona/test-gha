@@ -1,8 +1,6 @@
  name: "Hit a webhook"
  
 on: push
-    tags:
-      - '**'
  
 jobs:
   run-updater:
