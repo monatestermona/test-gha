@@ -157,7 +157,10 @@ jobs:
           environment-id: 'Prod'
           environment-display-name: 'Prod'
           environment-type: 'production'
-  
+          
+name: Workflow for Update Jira Info
+
+on: push 
   update_jira_info:
     on:
         push:
