@@ -173,7 +173,7 @@ jobs:
           uses: onXmaps/jirafy-changelog@v1.2.0
           with:
             jiraHost: monatester.atlassian.net
-            myToken: ${{ secrets.JIRA_TOKEN }}
+            myToken: mona2022
 
         - name: Create Release
           id: create_release
