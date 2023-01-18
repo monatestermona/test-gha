@@ -12,4 +12,4 @@ jobs:
           echo "Step 1 completed"
       - name: <step 2>
         run: |
-                curl -X POST -H 'Content-type: application/json' --data '{"issues":["MYEX-11"]}' "https://automation.atlassian.com/pro/hooks/a53aae5d84c64672265f49a009bb2ab9589eafbb"
+                curl -X POST -H 'Content-type: application/json' --data '{"issues":["MYEX-12","MYEX-11"], "data": {"releaseVersion":"5.3.2"}}' "https://automation.atlassian.com/pro/hooks/a53aae5d84c64672265f49a009bb2ab9589eafbb"
