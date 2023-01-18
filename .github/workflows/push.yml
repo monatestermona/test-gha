@@ -1,11 +1,11 @@
- name: "Hit a webhook"
- 
+name: "Hit a webhook"
+
 on: [push]
- 
+
 jobs:
-  run-updater:
-    runs-on: ubuntu-latest
-    steps:
-    - name: REST API with curl
-      run: |
-        curl -X POST -H 'Content-type: application/json' --data '{"issues":["MYEX-11"]}' "https://automation.atlassian.com/pro/hooks/a53aae5d84c64672265f49a009bb2ab9589eafbb"
+run-updater:
+runs-on: ubuntu-latest
+steps:
+- name: REST API with curl
+run: |
+curl -X POST -H 'Content-type: application/json' --data '{"issues":["MYEX-11"]}' "https://automation.atlassian.com/pro/hooks/a53aae5d84c64672265f49a009bb2ab9589eafbb"
