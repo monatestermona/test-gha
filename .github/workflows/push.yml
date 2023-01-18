@@ -1,9 +1,10 @@
 name: Workflow for Webhook
 
-on: push
-# Sequence of patterns matched against refs/tags
+on:
+  push:
+  # Sequence of patterns matched against refs/tags
     tags:
-       - 'v*' # Push events to matching v*, i.e. v1.0, v1.0.0
+      - 'v*' # Push events to matching v*, i.e. v1.0, v1.0.0
 
 jobs:
   build_and_test:
@@ -195,9 +196,3 @@ jobs:
             jiraHost: '${{ secrets.CLOUD_INSTANCE_BASE_URL }}'
             jiraUsername: ${{ secrets.JIRA_USERNAME }}
             jiraToken: ${{ secrets.JIRA_TOKEN }}      
-name: Workflow for Update Jira Info
-    on:
-        push:
-        # Sequence of patterns matched against refs/tags
-          tags:
-            - 'v*' # Push events to matching v*, i.e. v1.0, v1.0.0
