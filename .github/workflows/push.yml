@@ -11,7 +11,7 @@ jobs:
       shell: bash
       run: |
         echo "Build and Test as asdfsdf asdf asdfs sadfsd asdfsdff bbccccdddd asdfd asdf yyyyy asd asdf   asdfdf "
-        echo "BUILD_STATE=successful" >> $GITHUB_ENV
+        
     - name: Failed Build
       if: failure()
       run: echo "BUILD_STATE=failed" >> $GITHUB_ENV
@@ -22,8 +22,7 @@ jobs:
       with:
         is-pull-request: ${{ github.event_name == 'pull_request' }}
         parse-all-commits: ${{ github.event_name == 'push' }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
     - name: Push Build Info to Jira
       if: steps.jira_keys.outputs.jira-keys != ''
       id: push_build_info_to_jira
