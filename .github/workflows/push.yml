@@ -161,38 +161,22 @@ jobs:
           environment-id: 'Prod'
           environment-display-name: 'Prod'
           environment-type: 'production'
-  release:
-    runs-on: ubuntu-latest
-    steps:
-        # To use this repository's private action, you must check out the repository
-        - name: Checkout
-          uses: actions/checkout@v2
+      # Sync the changelog with Jira projects / Tickets
+      - name: Jirafy Sync
+        uses: onXmaps/jirafy-sync@v2.0.1
+        with:
+          changelog: ${{ steps.changelog.outputs.changelog }}
+          jiraVersion: ${{ github.ref_name }}
+          jiraHost: ${{ secrets.JIRA_HOST }}
+          jiraUsername: ${{ secrets.JIRA_USERNAME }}
+          jiraToken: ${{ secrets.JIRA_TOKEN }}
 
-        - name: Jirafy Changelog
-          id: changelog
-          uses: onXmaps/jirafy-changelog@v1.2.0
-          with:
-            #githubToken: ${{ secrets.GITHUB_TOKEN }}
-            jiraHost: monatester.atlassian.net
-            myToken: ${{ secrets.GITHUB_TOKEN }} #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
 
-        - name: Create Release
-          id: create_release
-          uses: actions/create-release@latest
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          with:
-            tag_name: ${{ github.ref }}
-            release_name: Release ${{ github.ref }}
-            body: ${{ steps.changelog.outputs.changelog }}
-            draft: false
-            prerelease: false
-
-        - name: Jirafy Sync aaa
-          uses: onXmaps/jirafy-sync@v2.1.0
-          with:
-            changelog: ${{ steps.changelog.outputs.changelog }}
-            jiraVersion: ${{ github.ref_name }}
-            jiraHost: monatester.atlassian.net
-            jiraUsername: monatestermona
-            jiraToken: szfPLVS9t24FvVmNIxWm8CF6 #${{ secrets.JIRA_TOKEN }}      
+      #  - name: Jirafy Sync aaa
+      #    uses: onXmaps/jirafy-sync@v2.1.0
+       #   with:
+       #     changelog: ${{ steps.changelog.outputs.changelog }}
+       #     jiraVersion: ${{ github.ref_name }}
+       #     jiraHost: monatester.atlassian.net
+       #     jiraUsername: monatestermona
+       #     jiraToken: szfPLVS9t24FvVmNIxWm8CF6 #${{ secrets.JIRA_TOKEN }}      
