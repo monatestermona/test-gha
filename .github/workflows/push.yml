@@ -162,7 +162,6 @@ jobs:
           environment-display-name: 'Prod'
           environment-type: 'production'
   release:
-    -name: Update Jira Info
     runs-on: ubuntu-latest
     steps:
         # To use this repository's private action, you must check out the repository
