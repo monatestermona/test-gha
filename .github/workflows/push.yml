@@ -157,3 +157,46 @@ jobs:
           environment-id: 'Prod'
           environment-display-name: 'Prod'
           environment-type: 'production'
+  
+  update_jira_info:
+    on:
+        push:
+        # Sequence of patterns matched against refs/tags
+          tags:
+            - 'v*' # Push events to matching v*, i.e. v1.0, v1.0.0
+
+    jobs:
+      release:
+        runs-on: ubuntu-latest
+      steps:
+        # To use this repository's private action, you must check out the repository
+        - name: Checkout
+          uses: actions/checkout@v2
+
+        - name: Jirafy Changelog
+          id: changelog
+          uses: onXmaps/jirafy-changelog@v1.2.0
+          with:
+            jiraHost: '${{ secrets.CLOUD_INSTANCE_BASE_URL }}'
+            myToken: ${{ secrets.GITHUB_TOKEN }}
+
+        - name: Create Release
+          id: create_release
+          uses: actions/create-release@latest
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
+            tag_name: ${{ github.ref }}
+            release_name: Release ${{ github.ref }}
+            body: ${{ steps.changelog.outputs.changelog }}
+            draft: false
+            prerelease: false
+
+        - name: Jirafy Sync
+          uses: onXmaps/jirafy-sync@v2.1.0
+          with:
+            changelog: ${{ steps.changelog.outputs.changelog }}
+            jiraVersion: ${{ github.ref_name }}
+            jiraHost: '${{ secrets.CLOUD_INSTANCE_BASE_URL }}'
+            jiraUsername: ${{ secrets.JIRA_USERNAME }}
+            jiraToken: ${{ secrets.JIRA_TOKEN }}
