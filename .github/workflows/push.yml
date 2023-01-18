@@ -6,16 +6,18 @@ jobs:
   Deployment:
     name: Make the deployment
     runs-on: ubuntu-latest
+    outputs:
+      output1: ${{ steps.step1.outputs.issue }}
     steps:
-      - name: <step 1>
+      - name: step1
         run: |
           echo "Step 1 completed"
       - name: Find in commit messages
         uses: cybervoid/gajira-get-issue@v1.0
         with:
-                input-text: ${{ github.ref }}
+                input-text: ${{ github.ref }} 
       - name: Display issues list
-        run: echo Jira issues are ${{output.issue}}
+        run: echo Jira issues are ${{output1}}
       - name: <step 2>
         run: |
                 curl -X POST -H 'Content-type: application/json' --data '{"issues":[{{ issue.id.asJsonString }}], "data": {"releaseVersion":"5.3.2"}}' "https://automation.atlassian.com/pro/hooks/a53aae5d84c64672265f49a009bb2ab9589eafbb"
