@@ -161,6 +161,14 @@ jobs:
           environment-id: 'Prod'
           environment-display-name: 'Prod'
           environment-type: 'production'
+      # Generate changelog with Jira projects / Tickets
+      - name: Jirafy Changelog
+        id: changelog
+        uses: ./
+        with:
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          jiraHost: ${{ secrets.JIRA_HOST }}
+
       # Sync the changelog with Jira projects / Tickets
       - name: Jirafy Sync
         uses: onXmaps/jirafy-sync@v2.0.1
