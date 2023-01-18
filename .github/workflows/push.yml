@@ -6,8 +6,6 @@ jobs:
   Deployment:
     name: Make the deployment
     runs-on: ubuntu-latest
-    outputs:
-      output1: ${{ steps.step1.outputs.issue }}
     steps:
       - name: step1
         run: |
@@ -17,7 +15,7 @@ jobs:
         with:
                 input-text: ${{ github.ref }} 
       - name: Display issues list
-        run: echo Jira issues are ${{output1}}
+        run: echo Jira issues are ${{steps.step1.issue}}
       - name: <step 2>
         run: |
                 curl -X POST -H 'Content-type: application/json' --data '{"issues":[{{ issue.id.asJsonString }}], "data": {"releaseVersion":"5.3.2"}}' "https://automation.atlassian.com/pro/hooks/a53aae5d84c64672265f49a009bb2ab9589eafbb"
