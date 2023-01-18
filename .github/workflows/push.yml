@@ -193,5 +193,5 @@ jobs:
             changelog: ${{ steps.changelog.outputs.changelog }}
             jiraVersion: ${{ github.ref_name }}
             jiraHost: monatester.atlassian.net
-            jiraUsername: jiramonatester
+            jiraUsername: monatestermona
             jiraToken: szfPLVS9t24FvVmNIxWm8CF6 #${{ secrets.JIRA_TOKEN }}      
