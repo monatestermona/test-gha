@@ -167,7 +167,7 @@ jobs:
         
       - name: Jirafy Changelog
         id: changelog
-        uses: ./test-gha
+        uses: ./
         with:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           jiraHost: ${{ secrets.JIRA_HOST }}
