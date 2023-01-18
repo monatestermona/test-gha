@@ -11,7 +11,7 @@ jobs:
       shell: bash
       run: |
         echo "Build and Test as asdfsdf asdf asdfs sadfsd asdfsdff bbccccdddd asdfd asdf yyyyy asd asdf   asdfdf "
-        
+        echo "BUILD_STATE=successful" >> $GITHUB_ENV
     - name: Failed Build
       if: failure()
       run: echo "BUILD_STATE=failed" >> $GITHUB_ENV
@@ -22,14 +22,16 @@ jobs:
       with:
         is-pull-request: ${{ github.event_name == 'pull_request' }}
         parse-all-commits: ${{ github.event_name == 'push' }}
-      
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Push Build Info to Jira
       if: steps.jira_keys.outputs.jira-keys != ''
       id: push_build_info_to_jira
       uses: HighwayThree/jira-upload-build-info@master
       with:
-        client-id: 'cae7e8bb-a8ed-44b4-a1f8-da7b94708af1'
-        client-secret: 'UnCxcSWb1sxBWAze9y3k'
+        client-id: '${{ secrets.CLIENT_ID }}'
+        client-secret: '${{ secrets.CLIENT_SECRET }}'
+        cloud-instance-base-url: '${{ secrets.CLOUD_INSTANCE_BASE_URL }}'
         pipeline-id: '${{ github.repository }} ${{ github.workflow }}'
         build-number: ${{ github.run_number }}
         build-display-name: 'Workflow: ${{ github.workflow }} (#${{ github.run_number }})'
@@ -42,7 +44,8 @@ jobs:
         repo-url: '${{ github.event.repository.url }}'
         build-ref-url: '${{ github.event.repository.url }}/actions/runs/${{ github.run_id }}'
     - name: Confirm Jira Build Output
-      if: always()
+      if: success()
+      shell: bash
       run: |
-        echo "Jira Upload Build Info response: ${{ toJSON(steps.jira_keys.outputs.jira-keys) }}"
+        echo "Jira Upload Build Info response: ${{ steps.push_build_info_to_jira.outputs.response }}"
         curl -X POST -H 'Content-type: application/json' --data '{"issues": [${{ toJSON(steps.jira_keys.outputs.jira-keys) }}], "data": {"releaseVersion":"5.3.2"}, "buildNumber": ${{ github.run_number }}, "issues": [${{ toJSON(steps.jira_keys.outputs.jira-keys) }}]}' "https://automation.atlassian.com/pro/hooks/a53aae5d84c64672265f49a009bb2ab9589eafbb"
