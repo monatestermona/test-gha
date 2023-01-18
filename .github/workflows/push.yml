@@ -167,9 +167,9 @@ jobs:
         
       - name: Jirafy Changelog
         id: changelog
-        uses: onXmaps/jirafy-changelog@v1.0.0
+        uses: ./test-gha
         with:
-          mytoken: ${{ secrets.GITHUB_TOKEN }}
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
           jiraHost: ${{ secrets.JIRA_HOST }}
 
       # Sync the changelog with Jira projects / Tickets
