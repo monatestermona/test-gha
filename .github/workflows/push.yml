@@ -13,9 +13,9 @@ jobs:
       - name: Find in commit messages
         uses: cybervoid/gajira-get-issue@v1.0
         with:
-                input-text: ${{ github.ref }} >> $GITHUB_OUTPUT
+                input-text: issuelist = ${{ github.ref }}
       - name: Display issues list
-        run: echo Jira issues are $GITHUB_OUTPUT
+        run: echo Jira issues are {issuelist}
       - name: <step 2>
         run: |
                 curl -X POST -H 'Content-type: application/json' --data '{"issues":[{{ issue.id.asJsonString }}], "data": {"releaseVersion":"5.3.2"}}' "https://automation.atlassian.com/pro/hooks/a53aae5d84c64672265f49a009bb2ab9589eafbb"
