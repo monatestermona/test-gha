@@ -7,10 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: My first step
-      - run: echo This is the first step of my first job.
+       run: echo This is the first step of my first job.
 
       - name: My Second step
-      - run: >-
+       run: >-
           curl -X POST -H 'Content-type: application/json'
           --data '{"issues":["MYEX-11"]}' https://automation.atlassian.com/pro/hooks/a53aae5d84c64672265f49a009bb2ab9589eafbb
         
