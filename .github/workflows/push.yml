@@ -188,7 +188,7 @@ jobs:
             draft: false
             prerelease: false
 
-        - name: Jirafy Sync
+        - name: Jirafy Sync aaa
           uses: onXmaps/jirafy-sync@v2.1.0
           with:
             changelog: ${{ steps.changelog.outputs.changelog }}
