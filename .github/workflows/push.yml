@@ -173,7 +173,7 @@ jobs:
           uses: onXmaps/jirafy-changelog@v1.2.0
           with:
             jiraHost: https://monatester.atlassian.net/
-            myToken: ${{ secrets.GITHUB_TOKEN }}
+            myToken: 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
 
         - name: Create Release
           id: create_release
