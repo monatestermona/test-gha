@@ -12,9 +12,6 @@ jobs:
       - name: My Second step
       - run: >-
           curl -X POST -H 'Content-type: application/json'
-          --data '{"issues":["MYEX-11"]}' [WEBHOOK URL]
-      - run: >-  
-        curl -X POST -H 'Content-type: application/json' \ 
-        --data '{"issues":["MYEX-11"]}' \ 
-        $WEBHOOK_URL
+          --data '{"issues":["MYEX-11"]}' $WEBHOOK_URL
+        
 
