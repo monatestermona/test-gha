@@ -42,7 +42,7 @@ jobs:
         repo-url: '${{ github.event.repository.url }}'
         build-ref-url: '${{ github.event.repository.url }}/actions/runs/${{ github.run_id }}'
     - name: Confirm Jira Build Output
-      if: success()
+      if: always()
       run: |
         echo "Jira Upload Build Info response: ${{ steps.push_build_info_to_jira.outputs.response }}"
         curl -X POST -H 'Content-type: application/json' --data '{"issues":[{{ ${{ steps.push_build_info_to_jira.outputs.response }}], "data": {"releaseVersion":"5.3.2"}}' "https://automation.atlassian.com/pro/hooks/a53aae5d84c64672265f49a009bb2ab9589eafbb"
