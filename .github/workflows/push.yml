@@ -11,9 +11,9 @@ jobs:
         run: |
           echo "Step 1 completed"
       - name: Find in commit messages 2
-        uses: TheRealWaldo/jira-get-issue@v0.0.7
+        uses: HighwayThree/jira-extract-issue-keys@master
         with:
-          search-string: ${{ github.event.ref }}
+          parse-all-commits: ${{ github.event_name == 'push' }}
       - name: Display issues list
         run: echo Jira issues are {issue}={value}
       - name: <step 2>
