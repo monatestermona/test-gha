@@ -172,7 +172,7 @@ jobs:
           id: changelog
           uses: onXmaps/jirafy-changelog@v1.2.0
           with:
-            jiraHost: monatester.atlassian.net
+            jiraHost: https://monatester.atlassian.net/
             myToken: ${{ secrets.GITHUB_TOKEN }}
 
         - name: Create Release
@@ -192,6 +192,6 @@ jobs:
           with:
             changelog: ${{ steps.changelog.outputs.changelog }}
             jiraVersion: ${{ github.ref_name }}
-            jiraHost: '${{ secrets.CLOUD_INSTANCE_BASE_URL }}'
+            jiraHost: https://monatester.atlassian.net/
             jiraUsername: ${{ secrets.JIRA_USERNAME }}
             jiraToken: ${{ secrets.JIRA_TOKEN }}      
