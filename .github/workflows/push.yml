@@ -162,6 +162,9 @@ jobs:
           environment-display-name: 'Prod'
           environment-type: 'production'
       # Generate changelog with Jira projects / Tickets
+      - name: Checkout
+        uses: actions/checkout@v2
+        
       - name: Jirafy Changelog
         id: changelog
         uses: ./
