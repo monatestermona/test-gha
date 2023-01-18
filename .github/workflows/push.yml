@@ -159,9 +159,6 @@ jobs:
           environment-type: 'production'
           
 name: Workflow for Update Jira Info
-
-on: push 
-  update_jira_info:
     on:
         push:
         # Sequence of patterns matched against refs/tags
