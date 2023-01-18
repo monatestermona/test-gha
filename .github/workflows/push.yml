@@ -81,7 +81,7 @@ jobs:
         id: push_deployment_info_to_jira
         uses: HighwayThree/jira-upload-deployment-info@master
         with:
-          cloud-id: '${{ secrets.CLOUD_ID }}'
+          cloud-instance-base-url: '${{ secrets.CLOUD_INSTANCE_BASE_URL }}'
           client-id: '${{ secrets.CLIENT_ID }}'
           client-secret: '${{ secrets.CLIENT_SECRET }}'
           deployment-sequence-number: '${{ github.run_id }}'
@@ -139,7 +139,7 @@ jobs:
         id: push_deployment_info_to_jira
         uses: HighwayThree/jira-upload-deployment-info@master
         with:
-          cloud-id: '${{ secrets.CLOUD_ID }}'
+          cloud-instance-base-url: '${{ secrets.CLOUD_INSTANCE_BASE_URL }}'
           client-id: '${{ secrets.CLIENT_ID }}'
           client-secret: '${{ secrets.CLIENT_SECRET }}'
           deployment-sequence-number: '${{ github.run_id }}'
