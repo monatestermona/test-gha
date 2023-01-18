@@ -18,4 +18,5 @@ jobs:
       - run: echo "🍏 This job's status is ${{ job.status }}."
       - name: Call Jira Webhook to update Jira issues statuses
       - run: echo "** Calling Jira WebHook."
-      - run: 'curl -X POST -H 'Content-type: application/json' --data '{"issues":["MYEX-11", "MYEX-12"]}' https://automation.atlassian.com/pro/hooks/a53aae5d84c64672265f49a009bb2ab9589eafbb'
+      script:
+      - curl -X POST -H 'Content-type: application/json' --data '{"issues":["MYEX-11", "MYEX-12"]}' "https://automation.atlassian.com/pro/hooks/a53aae5d84c64672265f49a009bb2ab9589eafbb"
