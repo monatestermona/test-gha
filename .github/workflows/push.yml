@@ -3,7 +3,7 @@ name: deploy
 jobs:
         deploy: 
         name: deploy to cluster
-        runs-on: ubuntu/latest
+        runs-on: ubuntu-latest
         steps:
                 - uses: actions/checkout@main
                 - name: build and push to docker
