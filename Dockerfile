@@ -1,2 +1,2 @@
-FROM nginx
-COPY nginx.conf /etc/nginx/nginx.conf
+FROM nginx:1.19-alpine
+COPY index.html /usr/share/nginx/html
