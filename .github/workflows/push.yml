@@ -31,7 +31,7 @@ jobs:
       with:
         client-id: '${{ secrets.CLIENT_ID }}'
         client-secret: '${{ secrets.CLIENT_SECRET }}'
-        cloud-instance-base-url: '${{ secrets.CLOUD_INSTANCE_BASE_URL }}'
+        cloud-id: '${{ secrets.CLOUD_INSTANCE_BASE_URL }}'
         pipeline-id: '${{ github.repository }} ${{ github.workflow }}'
         build-number: ${{ github.run_number }}
         build-display-name: 'Workflow: ${{ github.workflow }} (#${{ github.run_number }})'
@@ -45,7 +45,63 @@ jobs:
         build-ref-url: '${{ github.event.repository.url }}/actions/runs/${{ github.run_id }}'
     - name: Confirm Jira Build Output
       if: success()
-      shell: bash
       run: |
         echo "Jira Upload Build Info response: ${{ steps.push_build_info_to_jira.outputs.response }}"
-        curl -X POST -H 'Content-type: application/json' --data '{"issues": [${{ toJSON(steps.jira_keys.outputs.jira-keys) }}], "data": {"releaseVersion":"5.3.2"}, "buildNumber": ${{ github.run_number }}, "issues": [${{ toJSON(steps.jira_keys.outputs.jira-keys) }}]}' "https://automation.atlassian.com/pro/hooks/a53aae5d84c64672265f49a009bb2ab9589eafbb"
+
+  deploy_to_test:
+    runs-on: ubuntu-latest
+    needs: build_and_test
+    if: github.event_name == 'push' &&  github.ref == 'refs/heads/release/1.0.0'
+    steps:
+      - name: Deploy to Test
+        run: |
+          echo "Deploying to Test..."
+          echo "github.event_name: ${{github.event_name}}"
+          echo "github.ref: ${{github.ref}}"
+          echo "DEPLOY_STATE=successful"  >> $GITHUB_ENV
+      - name: Failed Deployment
+        if: failure()
+        run: echo "DEPLOY_STATE=failed" >> $GITHUB_ENV
+      - name: Parse Jira Keys from All Commits
+        id: jira_keys
+        if: always()
+        uses: HighwayThree/jira-extract-issue-keys@master
+        with:
+          is-pull-request: ${{ github.event_name == 'pull_request' }}
+          parse-all-commits: ${{ github.event_name == 'push' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Confirm Deploy State and Jira Key Values
+        if: always()
+        run: |
+          echo "DEPLOY_STATE: ${{env.DEPLOY_STATE}}"
+          echo "Jira Keys: ${{steps.jira_keys.outputs.jira-keys}}"
+      - name: Push Deployment Info to Jira
+        if: steps.jira_keys.outputs.jira-keys != ''
+        id: push_deployment_info_to_jira
+        uses: HighwayThree/jira-upload-deployment-info@master
+        with:
+          cloud-id: '${{ secrets.CLOUD_INSTANCE_BASE_URL }}'
+          client-id: '${{ secrets.CLIENT_ID }}'
+          client-secret: '${{ secrets.CLIENT_SECRET }}'
+          deployment-sequence-number: '${{ github.run_id }}'
+          update-sequence-number: '${{ github.run_id }}'
+          issue-keys: "${{ steps.jira_keys.outputs.jira-keys }}"
+          display-name: "Deployment number asdf"
+          url: "${{github.event.repository.url}}/actions/runs/${{github.run_id}}"
+          description: "Test Deployment"
+          last-updated: '${{github.event.head_commit.timestamp}}'
+          label: 'Test Deployment Label'
+          state: '${{env.DEPLOY_STATE}}'
+          pipeline-id: '${{ github.repository }} ${{ github.workflow }}'
+          pipeline-display-name: 'Workflow: ${{ github.workflow }} (#${{ github.run_number }})'
+          pipeline-url: '${{github.event.repository.url}}/actions/runs/${{github.run_id}}'
+          environment-id: 'Test'
+          environment-display-name: 'Test'
+          environment-type: 'testing'
+      - name: Confirm Jira Deploy Output
+        if: success()
+        shell: bash
+        run: |
+          echo "Jira Upload Deploy Info response: ${{steps.push_deployment_info_to_jira.outputs.response}}"
+          curl -X POST -H 'Content-type: application/json' --data '{"issues": [${{ toJSON(steps.jira_keys.outputs.jira-keys) }}], "data": {"releaseVersion":"5.3.2"}, "buildNumber": ${{ github.run_number }}, "issues": [${{ toJSON(steps.jira_keys.outputs.jira-keys) }}]}' "https://automation.atlassian.com/pro/hooks/a53aae5d84c64672265f49a009bb2ab9589eafbb"
