@@ -174,7 +174,7 @@ jobs:
           with:
             #githubToken: ${{ secrets.GITHUB_TOKEN }}
             jiraHost: monatester.atlassian.net
-            myToken: ${{ secrets.GITHUB_TOKEN }} #szfPLVS9t24FvVmNIxWm8CF6 #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
+            myToken: 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
 
         - name: Create Release
           id: create_release
