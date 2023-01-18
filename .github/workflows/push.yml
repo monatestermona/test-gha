@@ -28,8 +28,8 @@ jobs:
       id: push_build_info_to_jira
       uses: HighwayThree/jira-upload-build-info@master
       with:
-        client-id: 'jiramona'
-        client-secret: 'fcOJWi1dLoCw3B6Lfv1aEE87'
+        client-id: 'cae7e8bb-a8ed-44b4-a1f8-da7b94708af1'
+        client-secret: 'UnCxcSWb1sxBWAze9y3k'
         pipeline-id: '${{ github.repository }} ${{ github.workflow }}'
         build-number: ${{ github.run_number }}
         build-display-name: 'Workflow: ${{ github.workflow }} (#${{ github.run_number }})'
