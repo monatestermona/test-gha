@@ -1,11 +1,15 @@
-name: "Hit a webhook"
+name: Workflow for Webhook
 
-on: [push]
+on: push
 
 jobs:
-run-updater:
-runs-on: ubuntu-latest
-steps:
-- name: REST API with curl
-run: |
-curl -X POST -H 'Content-type: application/json' --data '{"issues":["MYEX-11"]}' "https://automation.atlassian.com/pro/hooks/a53aae5d84c64672265f49a009bb2ab9589eafbb"
+  Deployment:
+    name: Make the deployment
+    runs-on: ubuntu-latest
+    steps:
+      - name: <step 1>
+        run: |
+          echo "Step 1 completed"
+      - name: <step 2>
+        run: |
+                curl -X POST -H 'Content-type: application/json' --data '{"issues":["MYEX-11"]}' "https://automation.atlassian.com/pro/hooks/a53aae5d84c64672265f49a009bb2ab9589eafbb"
