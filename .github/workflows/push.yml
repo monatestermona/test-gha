@@ -13,7 +13,7 @@ jobs:
       - name: Find in commit messages 2
         uses: HighwayThree/jira-extract-issue-keys@master
         with:
-          parse-all-commits: ${{ github.event_name == 'push' }}
+          commit-message: 'MYEX-11/message MYEX-12/message message'
       - name: Display issues list
         run: echo Jira issues are {issue}={value}
       - name: <step 2>
