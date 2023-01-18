@@ -3,8 +3,8 @@ name: Workflow for Webhook
 on:
   push:
   # Sequence of patterns matched against refs/tags
-    tags:
-      - 'v*' # Push events to matching v*, i.e. v1.0, v1.0.0
+   # tags:
+    #  - 'v*' # Push events to matching v*, i.e. v1.0, v1.0.0
 
 jobs:
   build_and_test:
