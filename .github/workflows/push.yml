@@ -119,8 +119,9 @@ jobs:
           release_name: Release ${{ github.ref }}
           body: |
             Changes in this Release
-            - First Change
+            - ${{ steps.jira_keys.outputs.jira-keys }}
             - Second Change
+            - ${{steps.push_deployment_info_to_jira.outputs.response}}
           draft: false
           prerelease: false
 
