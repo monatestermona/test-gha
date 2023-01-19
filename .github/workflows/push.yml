@@ -167,7 +167,7 @@ jobs:
         
       - name: Jirafy Changelog
         id: changelog
-        uses: ./
+        uses: onXmaps/jirafy-changelog@v1.0.0
         with:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           jiraHost: ${{ secrets.JIRA_HOST }}
