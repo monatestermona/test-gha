@@ -118,7 +118,7 @@ jobs:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
           body: |
-            Changes in this Release
+            Changes in this Release 1
             - ${{ steps.jira_keys.outputs.jira-keys }}
             - Second Change
             - Third Change
