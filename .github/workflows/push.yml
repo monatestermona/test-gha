@@ -164,7 +164,11 @@ jobs:
       - name: Confirm Jira Deploy Output on Production
         if: success()
         - uses: actions/checkout@v2
-        - uses: ./.github/workflows/action
+        - uses: GeoWerkstatt/create-jira-release@v1
+        with:
+          jira-project-key: 'MYEX'
+          jira-automation-webhook: ${{ secrets.WEBHOOK_URL }}
+          build-version: v${{ env.VERSION }}
       #  shell: bash
       #  run: |
       #    echo "Jira Production Deploy Info response:  ${{steps.push_deployment_info_to_jira.outputs.response}}"
