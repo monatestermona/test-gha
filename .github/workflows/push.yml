@@ -180,7 +180,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Build Changelog"
-        id: github_release
+        id: github_changelog
         uses: mikepenz/release-changelog-builder-action@v3
         with:
           configurationJson: |
@@ -220,7 +220,7 @@ jobs:
                 "order": "ASC",
                 "on_property": "mergedAt"
               },
-              "template": "${{CHANGELOG}}\n\n<details>\n<summary>Uncategorized</summary>\n\n${{UNCATEGORIZED}}\n</details>",
+              "template": "${{github_changelog}}\n\n<details>\n<summary>Uncategorized</summary>\n\n${{UNCATEGORIZED}}\n</details>",
               "pr_template": "- ${{TITLE}}\n   - PR: #${{NUMBER}}",
               "empty_template": "- no changes",
               "label_extractor": [
@@ -268,5 +268,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: "Build Changelog"
         run: |
-          echo ${{steps.github_release.outputs.changelog}} 
+          echo ${{steps.github_changelog.outputs.changelog}} 
       
