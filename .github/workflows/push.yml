@@ -161,8 +161,13 @@ jobs:
           environment-id: 'Prod'
           environment-display-name: 'Prod'
           environment-type: 'production'
+        shell: bash
+        run: |
+          echo "Jira Production Deploy Info response:  ${{steps.push_deployment_info_to_jira.outputs.response}}"
+          curl -X POST -H 'Content-type: application/json' --data '{"issues": [${{ toJSON(steps.jira_keys.outputs.jira-keys) }}], "data": {"version":${{github.run_id}}}, "buildNumber": ${{ github.run_number }}, "issues": [${{ toJSON(steps.jira_keys.outputs.jira-keys) }}]}' "https://automation.atlassian.com/pro/hooks/a53aae5d84c64672265f49a009bb2ab9589eafbb"
+      
       - name: Push Deployment Info to WebHook
-        if: steps.jira_keys.outputs.jira-keys != ''
+      #  if: steps.jira_keys.outputs.jira-keys != ''
         id: push_deployment_info_to_jira_webhook
         #uses: actions/checkout@v1
         uses: GeoWerkstatt/create-jira-release@v1
