@@ -164,7 +164,7 @@ jobs:
       - name: Push Deployment Info to Jira
         if: steps.jira_keys.outputs.jira-keys != ''
         id: push_deployment_info_to_jira
-        uses: actions/checkout@v1
+        #uses: actions/checkout@v1
         uses: GeoWerkstatt/create-jira-release@v1
         with:
           jira-project-key: 'MYEX'
