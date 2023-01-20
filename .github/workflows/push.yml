@@ -181,7 +181,6 @@ jobs:
     steps:
       - uses: actions/checkout@v1
         name: Checkout
-      - uses: ./.github/workflows
       - name: "Build Changelog"
         uses: mikepenz/release-changelog-builder-action@v3
         with:
