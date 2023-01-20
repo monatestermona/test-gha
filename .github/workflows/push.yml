@@ -180,9 +180,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Build Changelog"
+        include: '/configuration.json'
         uses: mikepenz/release-changelog-builder-action@v3
         with:
-          configuration: "./configuration.json"
+          configuration: "configuration.json"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
