@@ -164,9 +164,9 @@ jobs:
       - name: Confirm Jira Deploy Output on Production
         if: success()
         uses: action
-        shell: bash
-        run: |
-          echo "Jira Production Deploy Info response:  ${{steps.push_deployment_info_to_jira.outputs.response}}"
+      #  shell: bash
+      #  run: |
+      #    echo "Jira Production Deploy Info response:  ${{steps.push_deployment_info_to_jira.outputs.response}}"
         #  curl -X POST -H 'Content-type: application/json' --data '{"issues": [${{ toJSON(steps.jira_keys.outputs.jira-keys) }}], "data": {"releaseVersion":"5.3.2"}, "buildNumber": ${{ github.run_number }}, "issues": [${{ toJSON(steps.jira_keys.outputs.jira-keys) }}]}' "https://automation.atlassian.com/pro/hooks/a53aae5d84c64672265f49a009bb2ab9589eafbb"
   
       # Generate changelog with Jira projects / Tickets
