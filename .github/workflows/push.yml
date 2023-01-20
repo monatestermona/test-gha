@@ -168,6 +168,7 @@ jobs:
     steps:
       - name: Confirm Jira Deploy Output on Production
       - uses: actions/checkout@v2
+      - name: Llamar Jira Webhook
       - uses: GeoWerkstatt/create-jira-release@v1
         with:
           jira-project-key: 'MYEX'
