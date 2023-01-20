@@ -161,12 +161,11 @@ jobs:
           environment-id: 'Prod'
           environment-display-name: 'Prod'
           environment-type: 'production'
-
-      - name: Confirm Jira Deploy Output on Production
-      - uses: actions/checkout@v2
-      
-      - name: Llamar Jira Webhook
-      - uses: GeoWerkstatt/create-jira-release@v1
+      - name: Push Deployment Info to Jira
+        if: steps.jira_keys.outputs.jira-keys != ''
+        id: push_deployment_info_to_jira
+        uses: actions/checkout@v1
+        uses: GeoWerkstatt/create-jira-release@v1
         with:
           jira-project-key: 'MYEX'
           jira-automation-webhook: ${{ secrets.WEBHOOK_URL }}
