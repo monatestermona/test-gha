@@ -161,6 +161,8 @@ jobs:
           environment-id: 'Prod'
           environment-display-name: 'Prod'
           environment-type: 'production'
+      - name: Confirm Jira Deploy Output
+        if: success()
         shell: bash
         run: |
           echo "Jira Production Deploy Info response:  ${{steps.push_deployment_info_to_jira.outputs.response}}"
