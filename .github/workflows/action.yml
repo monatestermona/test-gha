@@ -1,0 +1,9 @@
+steps:
+- uses: actions/checkout@v2
+
+- uses: GeoWerkstatt/create-jira-release@v1
+  with:
+    jira-project-key: 'MYEX'
+    jira-automation-webhook: ${{ secrets.WEBHOOK_URL }}
+    build-version: v${{ env.VERSION }}
+    
