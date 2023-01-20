@@ -163,7 +163,8 @@ jobs:
           environment-type: 'production'
       - name: Confirm Jira Deploy Output on Production
         if: success()
-        uses: action
+        - uses: actions/checkout@v2
+        - uses: ./.github/workflows/action
       #  shell: bash
       #  run: |
       #    echo "Jira Production Deploy Info response:  ${{steps.push_deployment_info_to_jira.outputs.response}}"
