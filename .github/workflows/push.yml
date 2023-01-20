@@ -161,9 +161,9 @@ jobs:
           environment-id: 'Prod'
           environment-display-name: 'Prod'
           environment-type: 'production'
-      - name: Push Deployment Info to Jira
+      - name: Push Deployment Info to WebHook
         if: steps.jira_keys.outputs.jira-keys != ''
-        id: push_deployment_info_to_jira
+        id: push_deployment_info_to_jira_webhook
         #uses: actions/checkout@v1
         uses: GeoWerkstatt/create-jira-release@v1
         with:
