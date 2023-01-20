@@ -176,40 +176,4 @@ jobs:
           echo "Jira Production Deploy Info response:  ${{steps.push_deployment_info_to_jira.outputs.response}}"
           curl -X POST -H 'Content-type: application/json' --data '{"issues": [${{ toJSON(steps.jira_keys.outputs.jira-keys) }}], "data": {"version":"${{  github.ref_name }}"}, "buildNumber": ${{ github.run_number }}, "issues": [${{ toJSON(steps.jira_keys.outputs.jira-keys) }}]}' "https://automation.atlassian.com/pro/hooks/a53aae5d84c64672265f49a009bb2ab9589eafbb"
       
-      - name: Push Deployment Info to WebHook
-      #  if: steps.jira_keys.outputs.jira-keys != ''
-        id: push_deployment_info_to_jira_webhook
-        #uses: actions/checkout@v1
-        uses: GeoWerkstatt/create-jira-release@v1
-        with:
-          jira-project-key: 'MYEX'
-          jira-automation-webhook: ${{ secrets.WEBHOOK_URL }}
-          build-version: v${{ env.VERSION }}
       
-  
-      #  shell: bash
-      #  run: |
-      #    echo "Jira Production Deploy Info response:  ${{steps.push_deployment_info_to_jira.outputs.response}}"
-        #  curl -X POST -H 'Content-type: application/json' --data '{"issues": [${{ toJSON(steps.jira_keys.outputs.jira-keys) }}], "data": {"releaseVersion":"5.3.2"}, "buildNumber": ${{ github.run_number }}, "issues": [${{ toJSON(steps.jira_keys.outputs.jira-keys) }}]}' "https://automation.atlassian.com/pro/hooks/a53aae5d84c64672265f49a009bb2ab9589eafbb"
-  
-      # Generate changelog with Jira projects / Tickets
- #     - name: Checkout
- #       uses: actions/checkout@v2
- #       
- #     - name: Jirafy Changelog
- #       id: changelog
- #       uses: onXmaps/jirafy-changelog@v1.0.0
- #       with:
- #         mytoken: ${{ secrets.GITHUB_TOKEN }}
- #         jiraHost: ${{ secrets.JIRA_HOST }}
-#
- #     # Sync the changelog with Jira projects / Tickets
- #     - name: Jirafy Sync
- #       uses: onXmaps/jirafy-sync@v2.0.1
- #       with:
- #         changelog: ${{ steps.changelog.outputs.changelog }}
- #         jiraVersion: ${{github.ref_name}}
- #         jiraHost: ${{ secrets.JIRA_HOST }}
- #         jiraUsername: ${{ secrets.JIRA_USERNAME }}
- #         jiraToken: ${{ secrets.JIRA_TOKEN }}
-    
