@@ -108,7 +108,7 @@ jobs:
         shell: bash
         run: |
           echo "Jira Upload Deploy Info response: ${{steps.push_deployment_info_to_jira.outputs.response}}"
-          curl -X POST -H 'Content-type: application/json' --data '{"issues": [${{ toJSON(steps.jira_keys.outputs.jira-keys) }}], "data": {"releaseVersion":"5.3.2"}, "buildNumber": ${{ github.run_number }}, "issues": [${{ toJSON(steps.jira_keys.outputs.jira-keys) }}]}' "https://automation.atlassian.com/pro/hooks/a53aae5d84c64672265f49a009bb2ab9589eafbb"
+        #  curl -X POST -H 'Content-type: application/json' --data '{"issues": [${{ toJSON(steps.jira_keys.outputs.jira-keys) }}], "data": {"releaseVersion":"5.3.2"}, "buildNumber": ${{ github.run_number }}, "issues": [${{ toJSON(steps.jira_keys.outputs.jira-keys) }}]}' "https://automation.atlassian.com/pro/hooks/a53aae5d84c64672265f49a009bb2ab9589eafbb"
 
   deploy_to_prod:
     runs-on: ubuntu-latest
@@ -161,33 +161,31 @@ jobs:
           environment-id: 'Prod'
           environment-display-name: 'Prod'
           environment-type: 'production'
+      - name: Confirm Jira Deploy Output on Production
+        if: success()
+        shell: bash
+        run: |
+          echo "Jira Production Deploy Info response: ${{steps.push_deployment_info_to_jira.outputs.response}}"
+          curl -X POST -H 'Content-type: application/json' --data '{"issues": [${{ toJSON(steps.jira_keys.outputs.jira-keys) }}], "data": {"releaseVersion":"5.3.2"}, "buildNumber": ${{ github.run_number }}, "issues": [${{ toJSON(steps.jira_keys.outputs.jira-keys) }}]}' "https://automation.atlassian.com/pro/hooks/a53aae5d84c64672265f49a009bb2ab9589eafbb"
+  
       # Generate changelog with Jira projects / Tickets
-      - name: Checkout
-        uses: actions/checkout@v2
-        
-      - name: Jirafy Changelog
-        id: changelog
-        uses: onXmaps/jirafy-changelog@v1.0.0
-        with:
-          mytoken: ${{ secrets.GITHUB_TOKEN }}
-          jiraHost: ${{ secrets.JIRA_HOST }}
-
-      # Sync the changelog with Jira projects / Tickets
-      - name: Jirafy Sync
-        uses: onXmaps/jirafy-sync@v2.0.1
-        with:
-          changelog: ${{ steps.changelog.outputs.changelog }}
-          jiraVersion: ${{github.ref}}
-          jiraHost: ${{ secrets.JIRA_HOST }}
-          jiraUsername: ${{ secrets.JIRA_USERNAME }}
-          jiraToken: ${{ secrets.JIRA_TOKEN }}
-
-
-      #  - name: Jirafy Sync aaa
-      #    uses: onXmaps/jirafy-sync@v2.1.0
-       #   with:
-       #     changelog: ${{ steps.changelog.outputs.changelog }}
-       #     jiraVersion: ${{ github.ref_name }}
-       #     jiraHost: monatester.atlassian.net
-       #     jiraUsername: monatestermona
-       #     jiraToken: szfPLVS9t24FvVmNIxWm8CF6 #${{ secrets.JIRA_TOKEN }}      
+ #     - name: Checkout
+ #       uses: actions/checkout@v2
+ #       
+ #     - name: Jirafy Changelog
+ #       id: changelog
+ #       uses: onXmaps/jirafy-changelog@v1.0.0
+ #       with:
+ #         mytoken: ${{ secrets.GITHUB_TOKEN }}
+ #         jiraHost: ${{ secrets.JIRA_HOST }}
+#
+ #     # Sync the changelog with Jira projects / Tickets
+ #     - name: Jirafy Sync
+ #       uses: onXmaps/jirafy-sync@v2.0.1
+ #       with:
+ #         changelog: ${{ steps.changelog.outputs.changelog }}
+ #         jiraVersion: ${{github.ref_name}}
+ #         jiraHost: ${{ secrets.JIRA_HOST }}
+ #         jiraUsername: ${{ secrets.JIRA_USERNAME }}
+ #         jiraToken: ${{ secrets.JIRA_TOKEN }}
+    
