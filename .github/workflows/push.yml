@@ -269,6 +269,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: "Build Changelog"
-        run:
-          echo "Changelog :" ${{steps.github_release.outputs.changelog}} 
+        run: |
+          echo ${{steps.github_release.outputs.changelog}} 
       
