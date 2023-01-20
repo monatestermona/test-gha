@@ -162,6 +162,16 @@ jobs:
           environment-display-name: 'Prod'
           environment-type: 'production'
 
+      - name: Confirm Jira Deploy Output on Production
+      - uses: actions/checkout@v2
+      
+      - name: Llamar Jira Webhook
+      - uses: GeoWerkstatt/create-jira-release@v1
+        with:
+          jira-project-key: 'MYEX'
+          jira-automation-webhook: ${{ secrets.WEBHOOK_URL }}
+          build-version: v${{ env.VERSION }}
+      
   
       #  shell: bash
       #  run: |
