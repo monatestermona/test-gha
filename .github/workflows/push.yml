@@ -220,8 +220,6 @@ jobs:
                 "order": "ASC",
                 "on_property": "mergedAt"
               },
-              "template": "${{github_changelog}}\n\n<details>\n<summary>Uncategorized</summary>\n\n${{UNCATEGORIZED}}\n</details>",
-              "pr_template": "- ${{TITLE}}\n   - PR: #${{NUMBER}}",
               "empty_template": "- no changes",
               "label_extractor": [
                 {
@@ -268,5 +266,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: "Build Changelog"
         run: |
-          echo ${{steps.github_changelog.outputs.changelog}} 
+          echo ${{steps.github_release.outputs.changelog}} 
       
