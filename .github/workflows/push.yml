@@ -3,13 +3,19 @@ name: Workflow for Webhook
 on:
   push:
   # Sequence of patterns matched against refs/tags
-   # tags:
-    #  - 'v*' # Push events to matching v*, i.e. v1.0, v1.0.0
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v1.0.0
 
 jobs:
   build_and_test:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
+    - name: Test
+      run: |
+          echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+          echo $RELEASE_VERSION
+          echo ${{ env.RELEASE_VERSION }}
     - uses: actions/checkout@v1
     - name: Build and Test
       shell: bash
@@ -161,12 +167,28 @@ jobs:
           environment-id: 'Prod'
           environment-display-name: 'Prod'
           environment-type: 'production'
-      - name: Confirm Jira Deploy Output on Production
+      - name: Confirm Jira Deploy Output
         if: success()
         shell: bash
         run: |
           echo "Jira Production Deploy Info response:  ${{steps.push_deployment_info_to_jira.outputs.response}}"
-          curl -X POST -H 'Content-type: application/json' --data '{"issues": [${{ toJSON(steps.jira_keys.outputs.jira-keys) }}], "data": {"releaseVersion":"5.3.2"}, "buildNumber": ${{ github.run_number }}, "issues": [${{ toJSON(steps.jira_keys.outputs.jira-keys) }}]}' "https://automation.atlassian.com/pro/hooks/a53aae5d84c64672265f49a009bb2ab9589eafbb"
+          curl -X POST -H 'Content-type: application/json' --data '{"issues": [${{ toJSON(steps.jira_keys.outputs.jira-keys) }}], "data": {"version":${{ env.RELEASE_VERSION }}}, "buildNumber": ${{ github.run_number }}, "issues": [${{ toJSON(steps.jira_keys.outputs.jira-keys) }}]}' "https://automation.atlassian.com/pro/hooks/a53aae5d84c64672265f49a009bb2ab9589eafbb"
+      
+      - name: Push Deployment Info to WebHook
+      #  if: steps.jira_keys.outputs.jira-keys != ''
+        id: push_deployment_info_to_jira_webhook
+        #uses: actions/checkout@v1
+        uses: GeoWerkstatt/create-jira-release@v1
+        with:
+          jira-project-key: 'MYEX'
+          jira-automation-webhook: ${{ secrets.WEBHOOK_URL }}
+          build-version: v${{ env.VERSION }}
+      
+  
+      #  shell: bash
+      #  run: |
+      #    echo "Jira Production Deploy Info response:  ${{steps.push_deployment_info_to_jira.outputs.response}}"
+        #  curl -X POST -H 'Content-type: application/json' --data '{"issues": [${{ toJSON(steps.jira_keys.outputs.jira-keys) }}], "data": {"releaseVersion":"5.3.2"}, "buildNumber": ${{ github.run_number }}, "issues": [${{ toJSON(steps.jira_keys.outputs.jira-keys) }}]}' "https://automation.atlassian.com/pro/hooks/a53aae5d84c64672265f49a009bb2ab9589eafbb"
   
       # Generate changelog with Jira projects / Tickets
  #     - name: Checkout
