@@ -3,31 +3,41 @@ name: Workflow for Webhook
 on:
   push:
   # Sequence of patterns matched against refs/tags
-   # tags:
-    #  - 'v*' # Push events to matching v*, i.e. v1.0, v1.0.0
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v1.0.0
 
 jobs:
   build_and_test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Build and Test
-      shell: bash
-      run: |
-        echo "Build and Test as asdfsdf asdf asdfs sadfsd asdfsdff bbccccdddd asdfd asdf yyyyy asd asdf   asdfdf "
-        echo "BUILD_STATE=successful" >> $GITHUB_ENV
-    - name: Failed Build
-      if: failure()
-      run: echo "BUILD_STATE=failed" >> $GITHUB_ENV
-    - name: Parse Jira Keys from Commit
-      id: jira_keys
-      if: always()
-      uses: HighwayThree/jira-extract-issue-keys@master
-      with:
-        is-pull-request: ${{ github.event_name == 'pull_request' }}
-        parse-all-commits: ${{ github.event_name == 'push' }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v2
+      - name: Set output
+        id: vars
+        run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
+      - name: Check output
+        env:
+          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
+        run: |
+          echo $RELEASE_VERSION
+          echo ${{ steps.vars.outputs.tag }}
+      - uses: actions/checkout@v1
+      - name: Build and Test
+        shell: bash
+          run: |
+            echo "Build and Test as asdfsdf asdf asdfs sadfsd asdfsdff bbccccdddd asdfd asdf yyyyy asd asdf   asdfdf "
+            echo "BUILD_STATE=successful" >> $GITHUB_ENV
+      - name: Failed Build
+        if: failure()
+          run: echo "BUILD_STATE=failed" >> $GITHUB_ENV
+      - name: Parse Jira Keys from Commit
+        id: jira_keys
+        if: always()
+      - uses: HighwayThree/jira-extract-issue-keys@master
+        with:
+          is-pull-request: ${{ github.event_name == 'pull_request' }}
+          parse-all-commits: ${{ github.event_name == 'push' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Push Build Info to Jira
       if: steps.jira_keys.outputs.jira-keys != ''
       id: push_build_info_to_jira
