@@ -166,7 +166,7 @@ jobs:
         shell: bash
         run: |
           echo "Jira Production Deploy Info response:  ${{steps.push_deployment_info_to_jira.outputs.response}}"
-          curl -X POST -H 'Content-type: application/json' --data '{"issues": [${{ toJSON(steps.jira_keys.outputs.jira-keys) }}], "data": {"version":${{ steps.previous_step.outputs.version }}}, "buildNumber": ${{ github.run_number }}, "issues": [${{ toJSON(steps.jira_keys.outputs.jira-keys) }}]}' "https://automation.atlassian.com/pro/hooks/a53aae5d84c64672265f49a009bb2ab9589eafbb"
+          curl -X POST -H 'Content-type: application/json' --data '{"issues": [${{ toJSON(steps.jira_keys.outputs.jira-keys) }}], "data": {"version":"1.1.1"}, "buildNumber": ${{ github.run_number }}, "issues": [${{ toJSON(steps.jira_keys.outputs.jira-keys) }}]}' "https://automation.atlassian.com/pro/hooks/a53aae5d84c64672265f49a009bb2ab9589eafbb"
       
       - name: Push Deployment Info to WebHook
       #  if: steps.jira_keys.outputs.jira-keys != ''
